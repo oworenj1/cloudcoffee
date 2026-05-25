@@ -32,11 +32,10 @@ function renderMenu(category = currentCategory) {
 
   if (term) {
     filtered = products.filter(p =>
-      drinkCategories.has(p.category) &&
       p.name.toLowerCase().includes(term)
     );
 
-    if (category !== "all" && category !== "pastry") {
+    if (category !== "all") {
       filtered = filtered.filter(p => p.category === category);
     }
   } else {

@@ -2,45 +2,30 @@
 // CHECKOUT STATE
 // ============================================================
 let selectedPayment = "GCash";
-let promoApplied    = false;
+let promoApplied = false;
+let activePromo = {
+  code: "",
+  pct: 0,
+  discount: 0
+};
 
-// Valid promo codes: key = code, value = discount %
 const VALID_PROMOS = {
   "CLOUD10":  10,
   "FIRSTCUP": 15,
   "CLOUDCUP": 20
 };
 
-
-// ============================================================
-// OPEN CHECKOUT
-// ============================================================
-function openCheckout() {
-  renderCheckout();
-  document.getElementById("checkoutOverlay").classList.add("active");
-  document.getElementById("checkoutModal").classList.add("open");
+function resetCheckoutForm() {
+  document.getElementById("promoInput").value = activePromo.code || "";
+  document.getElementById("promoHint").textContent = "";
+  document.getElementById("baristaNote").value = "";
 }
 
-
-// ============================================================
-// CLOSE CHECKOUT
-// ============================================================
-function closeCheckout() {
-  document.getElementById("checkoutOverlay").classList.remove("active");
-  document.getElementById("checkoutModal").classList.remove("open");
-}
-
-
-// ============================================================
-// RENDER CHECKOUT CONTENT
-// ============================================================
 function renderCheckout() {
   const checkoutItems = document.getElementById("checkoutItems");
   checkoutItems.innerHTML = "";
 
   let subtotal = 0;
-
-  // --- Build order summary ---
   cart.forEach(item => {
     const total = item.unitPrice * item.qty;
     subtotal += total;
@@ -67,99 +52,87 @@ function renderCheckout() {
     checkoutItems.appendChild(div);
   });
 
-  // --- Reset promo state ---
-  promoApplied = false;
-  document.getElementById("discountRow").style.display   = "none";
+  const promoDiscount = activePromo.discount || 0;
+  const total = Math.max(0, subtotal - promoDiscount);
+
   document.getElementById("checkoutSubtotal").textContent = formatPrice(subtotal);
-  document.getElementById("checkoutTotal").textContent    = formatPrice(subtotal);
+  document.getElementById("checkoutTotal").textContent = formatPrice(total);
 
-  // --- Loyalty points ---
-  const points = Math.floor(subtotal);
-  document.getElementById("loyaltyPoints").textContent =
-    `You'll earn ${points.toLocaleString()} CloudPoints from this order!`;
+  if (promoDiscount > 0) {
+    document.getElementById("discountRow").style.display = "flex";
+    document.getElementById("checkoutDiscount").textContent = `-${formatPrice(promoDiscount)} (${activePromo.pct}% off)`;
+  } else {
+    document.getElementById("discountRow").style.display = "none";
+  }
 
-  // --- Payment method highlight ---
   document.querySelectorAll(".payment-card").forEach(card => {
     card.classList.toggle("active", card.dataset.method === selectedPayment);
   });
-
-  // --- Reset inputs ---
-  document.getElementById("promoInput").value    = "";
-  document.getElementById("promoHint").textContent = "";
-  document.getElementById("baristaNote").value   = "";
 }
 
+function selectPayment(method) {
+  selectedPayment = method;
+  renderCheckout();
+}
 
-// ============================================================
-// PAYMENT METHOD SELECTION
-// ============================================================
-document.getElementById("paymentGrid").addEventListener("click", (e) => {
-  const card = e.target.closest(".payment-card");
-  if (!card) return;
-  document.querySelectorAll(".payment-card").forEach(c => c.classList.remove("active"));
-  card.classList.add("active");
-  selectedPayment = card.dataset.method;
-});
+function openCheckout() {
+  resetCheckoutForm();
+  renderCheckout();
+  document.getElementById("checkoutOverlay").classList.add("active");
+  document.getElementById("checkoutModal").classList.add("open");
+}
 
+function closeCheckout() {
+  document.getElementById("checkoutOverlay").classList.remove("active");
+  document.getElementById("checkoutModal").classList.remove("open");
+}
 
-// ============================================================
-// PROMO CODE
-// ============================================================
-document.getElementById("applyPromoBtn").addEventListener("click", () => {
+function applyPromo(code) {
   const hint = document.getElementById("promoHint");
-
-  if (promoApplied) {
-    hint.textContent  = "✅ Promo already applied!";
-    hint.style.color  = "var(--accent)";
+  if (!code) {
+    hint.textContent = "Please enter a promo code.";
+    hint.style.color = "#e74c3c";
+    return;
+  }
+  const normalized = code.trim().toUpperCase();
+  if (!VALID_PROMOS[normalized]) {
+    hint.textContent = `❌ Code "${normalized}" is invalid. Try: CLOUD10, FIRSTCUP, or CLOUDCUP`;
+    hint.style.color = "#e74c3c";
     return;
   }
 
-  const code = document.getElementById("promoInput").value.trim().toUpperCase();
+  activePromo.code = normalized;
+  activePromo.pct = VALID_PROMOS[normalized];
+  activePromo.discount = Math.floor(cart.reduce((sum, i) => sum + i.unitPrice * i.qty, 0) * activePromo.pct / 100);
+  promoApplied = true;
 
-  if (VALID_PROMOS[code]) {
-    const discountPct = VALID_PROMOS[code];
-    const subtotal    = cart.reduce((sum, i) => sum + i.unitPrice * i.qty, 0);
-    const discount    = Math.floor(subtotal * discountPct / 100);
-    const finalTotal  = subtotal - discount;
+  document.getElementById("promoHint").textContent = `🎉 Promo "${normalized}" applied! You saved ${formatPrice(activePromo.discount)}.`;
+  document.getElementById("promoHint").style.color = "#27ae60";
+  renderCheckout();
+}
 
-    document.getElementById("checkoutDiscount").textContent = `-${formatPrice(discount)} (${discountPct}% off)`;
-    document.getElementById("checkoutTotal").textContent    = formatPrice(finalTotal);
-    document.getElementById("discountRow").style.display    = "flex";
-
-    hint.textContent = `🎉 Promo "${code}" applied! You saved ${formatPrice(discount)}.`;
-    hint.style.color = "#27ae60";
-    promoApplied = true;
-
-  } else if (code === "") {
-    hint.textContent = "Please enter a promo code.";
-    hint.style.color = "#e74c3c";
-  } else {
-    hint.textContent = `❌ Code "${code}" is invalid. Try: CLOUD10, FIRSTCUP, or CLOUDCUP`;
-    hint.style.color = "#e74c3c";
-  }
+document.getElementById("applyPromoBtn").addEventListener("click", () => {
+  const code = document.getElementById("promoInput").value;
+  applyPromo(code);
 });
 
+document.querySelectorAll(".payment-card").forEach(card => {
+  card.addEventListener("click", () => selectPayment(card.dataset.method));
+});
 
-// ============================================================
-// CONFIRM ORDER
-// ============================================================
 document.getElementById("confirmOrderBtn").addEventListener("click", () => {
+  if (cart.length === 0) return;
   closeCheckout();
-  closeCartSidebar();
   showSuccess();
 });
 
-
-// ============================================================
-// SUCCESS POPUP
-// ============================================================
 function showSuccess() {
   document.getElementById("orderNumber").textContent = "Order #" + generateOrderNumber();
   document.getElementById("successOverlay").classList.add("active");
   document.getElementById("successPopup").classList.add("open");
   document.body.style.overflow = "hidden";
 
-  // Clear the cart after placing order
+  activePromo = { code: "", pct: 0, discount: 0 };
   cart = [];
   renderCart();
 }
@@ -170,10 +143,6 @@ function closeSuccess() {
   document.body.style.overflow = "";
 }
 
-
-// ============================================================
-// SUCCESS EVENT LISTENERS
-// ============================================================
 document.getElementById("placeOrderBtn").addEventListener("click", () => {
   if (cart.length === 0) return;
   openCheckout();

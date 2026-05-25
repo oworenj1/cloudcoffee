@@ -180,6 +180,17 @@ document.addEventListener("DOMContentLoaded", () => {
   renderMenu("all");
   initCategoryFilter();
   initMenuSearch();
+  initFooterMenuLinks();
   renderCart();
   setTimeout(revealOnScroll, 100);
 });
+
+function initFooterMenuLinks() {
+  document.querySelectorAll(".footer-menu-link").forEach(link => {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      const category = link.dataset.category || "all";
+      scrollToMenu(category);
+    });
+  });
+}

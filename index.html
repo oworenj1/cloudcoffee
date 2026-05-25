@@ -38,6 +38,12 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
       <div class="nav-actions">
+        <button class="history-btn" id="historyBtn" aria-label="Order history" title="Order History">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </button>
         <button class="cart-btn" id="cartBtn" aria-label="Open cart">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
@@ -416,6 +422,23 @@
     <div class="order-number" id="orderNumber"></div>
     <small>Your barista is brewing something wonderful for you.</small>
     <button class="btn-primary" id="successClose">Back to Menu</button>
+  </div>
+
+
+  <!-- ===================== ORDER HISTORY MODAL ===================== -->
+  <div class="history-overlay" id="historyOverlay"></div>
+  <div class="history-modal" id="historyModal">
+    <div class="history-header">
+      <h2>📋 Order History</h2>
+      <button class="modal-close" id="historyClose">✕</button>
+    </div>
+    <div class="history-content" id="historyContent">
+      <div class="history-empty" id="historyEmpty">
+        <span>☁️</span>
+        <p>No orders yet.</p>
+        <small>Your orders will appear here!</small>
+      </div>
+    </div>
   </div>
 
 

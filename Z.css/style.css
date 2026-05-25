@@ -101,6 +101,17 @@ button { cursor: pointer; font-family: inherit; border: none; outline: none; }
 }
 .cart-btn:hover { background: var(--baby-blue); transform: scale(1.05); }
 
+.history-btn {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
+  background: var(--sky);
+  border-radius: 50%;
+  color: var(--accent);
+  transition: var(--transition);
+}
+.history-btn:hover { background: var(--baby-blue); transform: scale(1.05); }
+
 .cart-count {
   position: absolute; top: -2px; right: -2px;
   width: 18px; height: 18px;

@@ -126,11 +126,53 @@ document.getElementById("confirmOrderBtn").addEventListener("click", () => {
   showSuccess();
 });
 
+function saveOrderToHistory() {
+  const subtotal = cart.reduce((sum, item) => sum + item.unitPrice * item.qty, 0);
+  const promoDiscount = activePromo.discount || 0;
+  const total = Math.max(0, subtotal - promoDiscount);
+
+  const order = {
+    id: generateOrderNumber(),
+    date: new Date().toLocaleString(),
+    items: cart.map(item => ({
+      name: item.name,
+      qty: item.qty,
+      unitPrice: item.unitPrice,
+      size: item.size,
+      sweetness: item.sweetness,
+      ice: item.ice,
+      addons: item.addons
+    })),
+    subtotal: subtotal,
+    promoCode: activePromo.code || "None",
+    promoDiscount: promoDiscount,
+    total: total,
+    paymentMethod: selectedPayment,
+    baristaNote: document.getElementById("baristaNote").value || "None"
+  };
+
+  let orders = [];
+  const stored = localStorage.getItem("orderHistory");
+  if (stored) {
+    try {
+      orders = JSON.parse(stored);
+    } catch (e) {
+      orders = [];
+    }
+  }
+
+  orders.unshift(order);
+  localStorage.setItem("orderHistory", JSON.stringify(orders));
+}
+
 function showSuccess() {
-  document.getElementById("orderNumber").textContent = "Order #" + generateOrderNumber();
+  const orderNum = generateOrderNumber();
+  document.getElementById("orderNumber").textContent = "Order #" + orderNum;
   document.getElementById("successOverlay").classList.add("active");
   document.getElementById("successPopup").classList.add("open");
   document.body.style.overflow = "hidden";
+
+  saveOrderToHistory();
 
   activePromo = { code: "", pct: 0, discount: 0 };
   cart = [];
@@ -153,3 +195,73 @@ document.getElementById("checkoutOverlay").addEventListener("click", closeChecko
 
 document.getElementById("successClose").addEventListener("click", closeSuccess);
 document.getElementById("successOverlay").addEventListener("click", closeSuccess);
+
+function openOrderHistory() {
+  renderOrderHistory();
+  document.getElementById("historyOverlay").classList.add("active");
+  document.getElementById("historyModal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeOrderHistory() {
+  document.getElementById("historyOverlay").classList.remove("active");
+  document.getElementById("historyModal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+function renderOrderHistory() {
+  const content = document.getElementById("historyContent");
+  const empty = document.getElementById("historyEmpty");
+
+  let orders = [];
+  const stored = localStorage.getItem("orderHistory");
+  if (stored) {
+    try {
+      orders = JSON.parse(stored);
+    } catch (e) {
+      orders = [];
+    }
+  }
+
+  if (orders.length === 0) {
+    content.innerHTML = `
+      <div class="history-empty">
+        <span>☁️</span>
+        <p>No orders yet.</p>
+        <small>Your orders will appear here!</small>
+      </div>
+    `;
+    return;
+  }
+
+  content.innerHTML = orders.map((order, idx) => {
+    const itemsList = order.items.map(item => {
+      const meta = [item.size];
+      if (item.sweetness && item.sweetness !== "Regular") meta.push(item.sweetness);
+      if (item.ice) meta.push(item.ice);
+      if (item.addons && item.addons.length > 0) meta.push("+" + item.addons.join(", "));
+      return `<div class="history-item-line">${item.qty}x ${item.name} - ${meta.join(" · ")}</div>`;
+    }).join("");
+
+    return `
+      <div class="history-order-card">
+        <div class="history-order-header">
+          <div>
+            <strong>Order #${order.id}</strong>
+            <small>${order.date}</small>
+          </div>
+          <div class="history-order-total">${formatPrice(order.total)}</div>
+        </div>
+        <div class="history-order-items">${itemsList}</div>
+        <div class="history-order-meta">
+          <span>💳 ${order.paymentMethod}</span>
+          ${order.promoDiscount > 0 ? `<span>🎉 ${order.promoCode} (-${formatPrice(order.promoDiscount)})</span>` : ""}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+document.getElementById("historyBtn").addEventListener("click", openOrderHistory);
+document.getElementById("historyClose").addEventListener("click", closeOrderHistory);
+document.getElementById("historyOverlay").addEventListener("click", closeOrderHistory);

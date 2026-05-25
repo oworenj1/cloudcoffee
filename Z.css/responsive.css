@@ -1,0 +1,79 @@
+
+
+/* ---- Tablet / small desktop (≤ 900px) ---- */
+@media (max-width: 900px) {
+
+  /* Hero: stack to single column */
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+    padding: 40px 24px;
+  }
+  .hero-subtitle { margin: 0 auto 32px; }
+  .hero-cta      { justify-content: center; }
+  .hero-stats    { justify-content: center; }
+  .hero-image    { justify-content: center; }
+
+  /* About: stack to single column */
+  .about-inner { grid-template-columns: 1fr; }
+  .about-image-wrap { max-width: 340px; margin: 0 auto; }
+
+  /* Footer: 2-column */
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+
+  /* Product modal: stack image above details */
+  .modal-inner { grid-template-columns: 1fr; }
+  .modal-image-col {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    padding: 28px;
+  }
+  .modal-image-col img { width: 160px; height: 160px; }
+}
+
+
+/* ---- Mobile (≤ 640px) ---- */
+@media (max-width: 640px) {
+
+  /* Nav: hide links, show hamburger */
+  .nav-links {
+    display: none;
+    position: absolute; top: 68px; left: 0; right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 16px 24px 24px;
+    box-shadow: var(--shadow-soft);
+    border-top: 1px solid var(--soft-gray);
+  }
+  .nav-links li {
+    width: 100%;
+  }
+  .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 16px;
+  }
+  .nav-links.open { display: flex; }
+  .hamburger { display: flex; }
+
+  /* Grids: 2 columns */
+  .featured-grid { grid-template-columns: repeat(2, 1fr); }
+  .menu-grid     { grid-template-columns: repeat(2, 1fr); }
+
+  /* Footer: single column */
+  .footer-top { grid-template-columns: 1fr; }
+
+  /* Modal add-ons: single column */
+  .addons-grid { grid-template-columns: 1fr; }
+
+  /* Payment grid: keep 2 columns */
+  .payment-grid { grid-template-columns: 1fr 1fr; }
+}
+
+
+/* ---- Small mobile (≤ 400px) ---- */
+@media (max-width: 400px) {
+  .featured-grid { grid-template-columns: 1fr; }
+  .menu-grid     { grid-template-columns: 1fr; }
+}

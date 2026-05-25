@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CloudCoffee – Brewed Above the Clouds</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- ============================================================
+       CSS FILES 
+       ============================================================ -->
+  <link rel="stylesheet" href="Z.css/style.css" />      
+  <link rel="stylesheet" href="Z.css/cart.css" />       
+  <link rel="stylesheet" href="Z.css/modal.css" />      
+  <link rel="stylesheet" href="Z.css/responsive.css" /> 
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <span class="logo-icon">☁️</span>
+        <span class="logo-text">CloudCoffee</span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="cloud cloud-1"></div>
+      <div class="cloud cloud-2"></div>
+      <div class="cloud cloud-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <span class="hero-badge">☁️ New Season Menu</span>
+        <h1 class="hero-title">Brewed<br /><span class="gradient-text">Above the Clouds</span></h1>
+        <p class="hero-subtitle">Every sip is a moment of calm. Discover handcrafted drinks inspired by the sky — smooth, dreamy, and made just for you.</p>
+        <div class="hero-cta">
+          <a href="#menu" class="btn-primary">Order Now</a>
+          <a href="#about" class="btn-ghost">Our Story</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><strong>20+</strong><span>Drinks</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><strong>4.9★</strong><span>Rating</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><strong>100%</strong><span>Fresh</span></div>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="hero-card">
+          <img src="cold_beverages/ice_latte.png" alt="Ice Latte" class="hero-drink-img"
+            onerror="this.src='https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&q=80'" />
+          <div class="hero-card-tag">☁️ Today's Pick</div>
+          <div class="hero-card-name">Iced Latte</div>
+          <div class="hero-card-price">from ₱124</div>
+        </div>
+        <div class="floating-badge badge-1">✨ Cloud Series</div>
+        <div class="floating-badge badge-2">🌸 Pastel Collection</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== FEATURED ===================== -->
+  <section class="featured" id="featured">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">☁️ Fan Favorites</span>
+        <h2 class="section-title">Featured Drinks</h2>
+        <p class="section-desc">Our most-loved drinks, crafted with care and served with a smile.</p>
+      </div>
+      <div class="featured-grid" id="featuredGrid">
+        <!-- Populated by main.js → renderFeatured() -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== MENU ===================== -->
+  <section class="menu-section" id="menu">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">☕ Full Collection</span>
+        <h2 class="section-title">Our Menu</h2>
+        <p class="section-desc">Browse all our handcrafted drinks and pastries — something cozy for every mood.</p>
+      </div>
+      <!-- Category Filter Buttons -->
+      <div class="category-filters" id="categoryFilters">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="hot">🔥 Hot Beverages</button>
+        <button class="filter-btn" data-category="iced">🧊 Iced Beverages</button>
+        <button class="filter-btn" data-category="tea">🍵 Tea</button>
+        <button class="filter-btn" data-category="blended">🥤 Blended</button>
+        <button class="filter-btn" data-category="pastry">🥐 Pastries</button>
+      </div>
+      <!-- Menu Grid -->
+      <div class="menu-grid" id="menuGrid">
+        <!-- Populated by main.js → renderMenu() -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== ABOUT ===================== -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-inner">
+        <div class="about-image-wrap">
+          <img src="aboutcloudpic.png" alt="About CloudCoffee" class="about-img"
+            onerror="this.src='https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80'" />
+          <div class="about-img-badge">Est. 2026</div>
+        </div>
+        <div class="about-content">
+          <span class="section-label">☁️ Our Story</span>
+          <h2 class="section-title">More Than Just Coffee</h2>
+          <p>CloudCoffee was born from a simple dream — to create a cozy corner in the sky where every cup tells a story. Inspired by Korean café culture and the serene beauty of clouds, we craft drinks that feel like a warm hug on a cloudy day.</p>
+          <p>From our signature Iced Lattes to dreamy Blended Frappes, every drink is made with freshly-sourced beans, premium milk, and a whole lot of love.</p>
+          <div class="about-features">
+            <div class="about-feat"><span>🌿</span><div><strong>Fresh Ingredients</strong><small>Sourced daily, crafted fresh</small></div></div>
+            <div class="about-feat"><span>☕</span><div><strong>Premium Beans</strong><small>Single-origin, roasted locally</small></div></div>
+            <div class="about-feat"><span>💙</span><div><strong>Made with Love</strong><small>Every cup, every time</small></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">📍 Find Us</span>
+        <h2 class="section-title">Visit CloudCoffee</h2>
+        <p class="section-desc">Drop by and let us brew your perfect cup.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <span class="contact-icon">📍</span>
+          <h3>Location</h3>
+          <p>123 Cloud Street, Poblacion,<br />Makati City, Metro Manila</p>
+        </div>
+        <div class="contact-card">
+          <span class="contact-icon">🕐</span>
+          <h3>Hours</h3>
+          <p>Monday – Friday: 7AM – 10PM<br />Saturday – Sunday: 8AM – 11PM</p>
+        </div>
+        <div class="contact-card">
+          <span class="contact-icon">📱</span>
+          <h3>Contact</h3>
+          <p>hello@cloudcoffee.ph<br />+63 912 345 6789</p>
+        </div>
+        <div class="contact-card">
+          <span class="contact-icon">📲</span>
+          <h3>Follow Us</h3>
+          <p>@cloudcoffee.ph<br />on Instagram & TikTok</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <span class="logo-icon">☁️</span>
+            <span class="logo-text">CloudCoffee</span>
+          </div>
+          <p>Brewed Above the Clouds.<br />Your cozy café, anytime.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <a href="#home">Home</a>
+          <a href="#menu">Menu</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="footer-links">
+          <h4>Menu</h4>
+          <a href="#">Hot Beverages</a>
+          <a href="#">Iced Beverages</a>
+          <a href="#">Blended</a>
+          <a href="#">Pastries</a>
+        </div>
+        <div class="footer-links">
+          <h4>Follow Us</h4>
+          <a href="https://www.instagram.com/zuscoffee.ph/" 
+          target="_blank" 
+          rel="noopener noreferrer" >Instagram</a>
+
+          <a href="https://www.tiktok.com/@zuscoffee.ph" 
+          target="_blank" 
+          rel="noopener noreferrer">TikTok</a>
+
+          <a href="https://www.facebook.com/zuscoffee.ph/" 
+          target="_blank" 
+          rel="noopener noreferrer" >Facebook</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 CloudCoffee. Made by Adrian Borre</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ===================== CART SIDEBAR ===================== -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2>🛒 Your Order</h2>
+      <button class="cart-close" id="cartClose">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty">
+        <span>☁️</span>
+        <p>Your cart is empty.</p>
+        <small>Add some drinks to get started!</small>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none;">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <strong id="cartSubtotal">₱0</strong>
+      </div>
+      <button class="btn-primary full-width" id="placeOrderBtn">Place Order</button>
+    </div>
+  </aside>
+
+
+  <!-- ===================== PRODUCT MODAL ===================== -->
+  <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="product-modal" id="productModal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-inner">
+      <div class="modal-image-col">
+        <img id="modalImage" src="" alt="" />
+        <div class="modal-category-badge" id="modalCategoryBadge"></div>
+      </div>
+      <div class="modal-details-col">
+        <h2 id="modalName"></h2>
+        <p class="modal-description" id="modalDescription"></p>
+        <div class="modal-calories" id="modalCalories"></div>
+
+        <!-- SIZE -->
+        <div class="modal-option-group" id="sizeGroup">
+          <label class="option-label">☕ Size</label>
+          <div class="option-pills" id="sizePills"></div>
+        </div>
+
+        <!-- SWEETNESS -->
+        <div class="modal-option-group" id="sweetnessGroup">
+          <label class="option-label">🍬 Sweetness</label>
+          <div class="option-pills">
+            <button class="pill active" data-sweet="Regular">Regular</button>
+            <button class="pill" data-sweet="Less Sweet">Less Sweet</button>
+            <button class="pill" data-sweet="More Sweet">More Sweet</button>
+          </div>
+        </div>
+
+        <!-- ICE LEVEL -->
+        <div class="modal-option-group" id="iceGroup" style="display:none;">
+          <label class="option-label">🧊 Ice Level</label>
+          <div class="option-pills">
+            <button class="pill active" data-ice="Normal Ice">Normal</button>
+            <button class="pill" data-ice="Less Ice">Less Ice</button>
+            <button class="pill" data-ice="No Ice">No Ice</button>
+          </div>
+        </div>
+
+        <!-- ADD-ONS -->
+        <div class="modal-option-group">
+          <label class="option-label">✨ Add-ons</label>
+          <div class="addons-grid" id="addonsGrid"></div>
+        </div>
+
+        <!-- ABOUT THE DRINK -->
+        <div class="modal-option-group">
+          <label class="option-label">📖 About This Drink</label>
+          <div class="about-drink-box" id="aboutDrinkBox"></div>
+        </div>
+
+        <!-- QUANTITY & PRICE -->
+        <div class="modal-bottom">
+          <div class="qty-controls">
+            <button class="qty-btn" id="qtyMinus">−</button>
+            <span class="qty-display" id="qtyDisplay">1</span>
+            <button class="qty-btn" id="qtyPlus">+</button>
+          </div>
+          <div class="modal-price-total" id="modalPriceTotal">₱0</div>
+        </div>
+        <button class="btn-primary full-width" id="addToCartBtn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ===================== CHECKOUT MODAL ===================== -->
+  <div class="checkout-overlay" id="checkoutOverlay"></div>
+  <div class="checkout-modal" id="checkoutModal">
+    <div class="checkout-header">
+      <button class="modal-close" id="checkoutClose">✕</button>
+      <h2>🧾 Checkout</h2>
+      <p>Review your order before confirming.</p>
+    </div>
+    <div class="checkout-body">
+
+      <!-- Order Summary -->
+      <div class="checkout-section">
+        <h3 class="checkout-section-title">📋 Order Summary</h3>
+        <div id="checkoutItems"></div>
+      </div>
+
+      <!-- Note to Barista -->
+      <div class="checkout-section">
+        <h3 class="checkout-section-title">📝 Note to Barista</h3>
+        <textarea id="baristaNote" placeholder="e.g. Less ice please, Extra sweet, No whipped cream..." rows="3"></textarea>
+      </div>
+
+      <!-- Promo / Voucher -->
+      <div class="checkout-section">
+        <h3 class="checkout-section-title">🏷️ Promo / Voucher</h3>
+        <div class="promo-row">
+          <input type="text" id="promoInput" placeholder="Enter voucher code" />
+          <button class="btn-outline" id="applyPromoBtn">Apply</button>
+        </div>
+        <p class="promo-hint" id="promoHint"></p>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="checkout-section">
+        <h3 class="checkout-section-title">💳 Payment Method</h3>
+        <div class="payment-grid" id="paymentGrid">
+          <div class="payment-card active" data-method="GCash">
+            <span class="payment-icon">💙</span><span>GCash</span>
+          </div>
+          <div class="payment-card" data-method="Maya">
+            <span class="payment-icon">💚</span><span>Maya</span>
+          </div>
+          <div class="payment-card" data-method="Cash">
+            <span class="payment-icon">💵</span><span>Cash</span>
+          </div>
+          <div class="payment-card" data-method="Credit Card">
+            <span class="payment-icon">💳</span><span>Credit Card</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loyalty Points -->
+      <div class="loyalty-banner">
+        <span>☁️</span>
+        <div>
+          <strong>You'll earn CloudPoints!</strong>
+          <small id="loyaltyPoints">Complete your order to earn points.</small>
+        </div>
+      </div>
+
+      <!-- Final Total -->
+      <div class="checkout-section checkout-total-section">
+        <div class="checkout-total-row">
+          <span>Subtotal</span>
+          <span id="checkoutSubtotal">₱0</span>
+        </div>
+        <div class="checkout-total-row" id="discountRow" style="display:none;">
+          <span>Discount</span>
+          <span id="checkoutDiscount" style="color:#6FA9D8;">-₱0</span>
+        </div>
+        <div class="checkout-total-row total-row">
+          <strong>Total</strong>
+          <strong id="checkoutTotal">₱0</strong>
+        </div>
+      </div>
+    </div>
+    <div class="checkout-footer">
+      <button class="btn-primary full-width" id="confirmOrderBtn">Confirm Order</button>
+    </div>
+  </div>
+
+
+  <!-- ===================== SUCCESS POPUP ===================== -->
+  <div class="success-overlay" id="successOverlay"></div>
+  <div class="success-popup" id="successPopup">
+    <div class="success-icon">✅</div>
+    <h2>Order Placed!</h2>
+    <p>Thank you for ordering from CloudCoffee! ☁️</p>
+    <div class="order-number" id="orderNumber"></div>
+    <small>Your barista is brewing something wonderful for you.</small>
+    <button class="btn-primary" id="successClose">Back to Menu</button>
+  </div>
+
+
+  <!-- ============================================================
+       JS FILES  
+       ============================================================ -->
+  <script src="Z.js/products.js"></script>   <!-- Product data array + add-on catalog     -->
+  <script src="Z.js/cart.js"></script>       <!-- Cart state, renderCart(), open/close     -->
+  <script src="Z.js/modal.js"></script>      <!-- Product modal, customization, add to cart-->
+  <script src="Z.js/checkout.js"></script>   <!-- Checkout, payment, promo, success popup  -->
+  <script src="Z.js/main.js"></script>       <!-- Init, card rendering, filters, scroll     -->
+
+</body>
+</html>

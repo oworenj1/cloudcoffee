@@ -86,6 +86,26 @@
   color: var(--text-dark); margin-bottom: 10px;
 }
 .option-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.modal-size-info {
+  font-size: 13px;
+  color: var(--text-dark);
+  margin-top: 10px;
+}
+.modal-addon-hint {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+.modal-addon-hint.shake {
+  animation: shake 0.25s ease;
+  color: var(--accent);
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+}
 
 /* --- Pills (size / sweetness / ice) --- */
 .pill {

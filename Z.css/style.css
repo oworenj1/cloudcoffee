@@ -395,7 +395,27 @@ button { cursor: pointer; font-family: inherit; border: none; outline: none; }
 .category-filters {
   display: flex; gap: 10px; flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+}
+.menu-search {
+  max-width: 520px;
+  margin: 0 auto 32px;
+}
+.menu-search input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid rgba(84,110,138,0.18);
+  border-radius: 999px;
+  font-size: 14px;
+  color: var(--text-dark);
+  background: white;
+  box-shadow: 0 8px 24px rgba(111,169,216,0.08);
+  transition: var(--transition);
+}
+.menu-search input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 12px 30px rgba(111,169,216,0.18);
 }
 .filter-btn {
   padding: 9px 20px;

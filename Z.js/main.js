@@ -17,17 +17,45 @@ function renderFeatured() {
 // ============================================================
 // RENDER MENU PRODUCTS  (Full menu section)
 // ============================================================
-function renderMenu(category = "all") {
+let currentCategory = "all";
+let currentSearch = "";
+const drinkCategories = new Set(["hot", "iced", "tea", "blended"]);
+
+function renderMenu(category = currentCategory) {
+  currentCategory = category;
   const grid = document.getElementById("menuGrid");
   if (!grid) return;
 
   grid.innerHTML = "";
-  const filtered = category === "all"
-    ? products
-    : products.filter(p => p.category === category);
+  const term = currentSearch.trim().toLowerCase();
+  let filtered;
+
+  if (term) {
+    filtered = products.filter(p =>
+      drinkCategories.has(p.category) &&
+      p.name.toLowerCase().includes(term)
+    );
+
+    if (category !== "all" && category !== "pastry") {
+      filtered = filtered.filter(p => p.category === category);
+    }
+  } else {
+    filtered = category === "all"
+      ? products
+      : products.filter(p => p.category === category);
+  }
 
   filtered.forEach((product, i) => {
     grid.appendChild(createProductCard(product, i * 0.05));
+  });
+}
+
+function initMenuSearch() {
+  const search = document.getElementById("menuSearch");
+  if (!search) return;
+  search.addEventListener("input", () => {
+    currentSearch = search.value;
+    renderMenu(currentCategory);
   });
 }
 
@@ -151,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderFeatured();
   renderMenu("all");
   initCategoryFilter();
+  initMenuSearch();
   renderCart();
   setTimeout(revealOnScroll, 100);
 });

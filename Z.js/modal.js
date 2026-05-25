@@ -9,6 +9,12 @@ let selectedIce      = "Normal Ice";
 let selectedAddons   = [];
 let modalQty         = 1;
 
+const servingSizeDetails = {
+  Small:  "250ml cup — cozy and easy to sip",
+  Medium: "350ml cup — balanced and satisfying",
+  Large:  "470ml cup — generous and refreshing"
+};
+
 // Tracks whether we're editing an existing cart item (null = new item)
 let editingCartId = null;
 
@@ -77,6 +83,7 @@ function populateModalData(product) {
       btn.classList.add("active");
       selectedSize = size;
       updateModalPrice();
+      updateModalSizeInfo();
     });
     sizePills.appendChild(btn);
   });
@@ -85,6 +92,7 @@ function populateModalData(product) {
   const sizeKeys = Object.keys(product.prices);
   document.getElementById("sizeGroup").style.display =
     (sizeKeys.length <= 1 && !["Small","Medium","Large"].includes(sizeKeys[0])) ? "none" : "";
+  updateModalSizeInfo();
 
   // Hide sweetness for pastries
   document.getElementById("sweetnessGroup").style.display =
@@ -143,7 +151,15 @@ function populateModalData(product) {
       `;
       item.addEventListener("click", () => {
         const idx = selectedAddons.indexOf(addonKey);
+        const hint = document.getElementById("addonLimitHint");
         if (idx === -1) {
+          if (selectedAddons.length >= 2) {
+            if (hint) {
+              hint.classList.add("shake");
+              setTimeout(() => hint.classList.remove("shake"), 300);
+            }
+            return;
+          }
           selectedAddons.push(addonKey);
           item.classList.add("selected");
         } else {
@@ -162,6 +178,18 @@ function populateModalData(product) {
   // Initial qty display & price
   document.getElementById("qtyDisplay").textContent = modalQty;
   updateModalPrice();
+}
+
+function updateModalSizeInfo() {
+  const sizeInfoEl = document.getElementById("modalSizeInfo");
+  if (!sizeInfoEl) return;
+  const text = servingSizeDetails[selectedSize] || "";
+  if (text) {
+    sizeInfoEl.textContent = `Serving size: ${text}`;
+    sizeInfoEl.style.display = "block";
+  } else {
+    sizeInfoEl.style.display = "none";
+  }
 }
 
 

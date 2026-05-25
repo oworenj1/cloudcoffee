@@ -120,6 +120,9 @@
         <button class="filter-btn" data-category="blended">🥤 Blended</button>
         <button class="filter-btn" data-category="pastry">🥐 Pastries</button>
       </div>
+      <div class="menu-search">
+        <input type="search" id="menuSearch" placeholder="Search drinks..." aria-label="Search drinks" />
+      </div>
       <!-- Menu Grid -->
       <div class="menu-grid" id="menuGrid">
         <!-- Populated by main.js → renderMenu() -->
@@ -276,6 +279,7 @@
         <div class="modal-option-group" id="sizeGroup">
           <label class="option-label">☕ Size</label>
           <div class="option-pills" id="sizePills"></div>
+          <div class="modal-size-info" id="modalSizeInfo"></div>
         </div>
 
         <!-- SWEETNESS -->
@@ -301,6 +305,7 @@
         <!-- ADD-ONS -->
         <div class="modal-option-group">
           <label class="option-label">✨ Add-ons</label>
+          <div class="modal-addon-hint" id="addonLimitHint">Choose up to 2 add-ons.</div>
           <div class="addons-grid" id="addonsGrid"></div>
         </div>
 
